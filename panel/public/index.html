@@ -1,0 +1,476 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🚀 Painel de Controle do Servidor</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Loading Screen -->
+    <div id="loading" class="loading-screen">
+        <div class="loading-spinner"></div>
+        <p>Carregando painel de controle...</p>
+    </div>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-header">
+                <i class="fas fa-server"></i>
+                <h1>Painel de Controle</h1>
+                <p>Faça login para acessar o sistema</p>
+            </div>
+            <form id="loginForm" class="login-form">
+                <div class="form-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" id="username" placeholder="Usuário" required>
+                </div>
+                <div class="form-group">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" id="password" placeholder="Senha" required>
+                </div>
+                <button type="submit" class="btn-login">
+                    <i class="fas fa-sign-in-alt"></i>
+                    Entrar
+                </button>
+            </form>
+            <div id="loginError" class="error-message"></div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="dashboard">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-server"></i>
+                <h2>Servidor</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="overview">
+                    <i class="fas fa-tachometer-alt"></i>
+                    <span>Visão Geral</span>
+                </a>
+                <a href="#" class="nav-item" data-section="sites">
+                    <i class="fas fa-globe"></i>
+                    <span>Sites & Domínios</span>
+                </a>
+                <a href="#" class="nav-item" data-section="ssl">
+                    <i class="fas fa-shield-alt"></i>
+                    <span>Certificados SSL</span>
+                </a>
+                <a href="#" class="nav-item" data-section="files">
+                    <i class="fas fa-folder"></i>
+                    <span>Gerenciador de Arquivos</span>
+                </a>
+                <a href="#" class="nav-item" data-section="databases">
+                    <i class="fas fa-database"></i>
+                    <span>Bancos de Dados</span>
+                </a>
+                <a href="#" class="nav-item" data-section="logs">
+                    <i class="fas fa-list-alt"></i>
+                    <span>Logs do Sistema</span>
+                </a>
+                <a href="#" class="nav-item" data-section="settings">
+                    <i class="fas fa-cog"></i>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+            <div class="sidebar-footer">
+                <button id="logoutBtn" class="btn-logout">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="header">
+                <div class="header-left">
+                    <button class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1 id="pageTitle">Visão Geral</h1>
+                </div>
+                <div class="header-right">
+                    <div class="status-indicator">
+                        <span class="status-dot online"></span>
+                        <span>Online</span>
+                    </div>
+                    <div class="user-info">
+                        <i class="fas fa-user-circle"></i>
+                        <span>Admin</span>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Content Sections -->
+            <div class="content">
+                <!-- Overview Section -->
+                <section id="overview-section" class="section active">
+                    <div class="cards-grid">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-microchip text-blue"></i>
+                                <h3>CPU & Memória</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="metric">
+                                    <span class="metric-label">CPU Load:</span>
+                                    <span id="cpuLoad" class="metric-value">0.50</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Memória:</span>
+                                    <span id="memoryUsage" class="metric-value">2.1GB / 8GB</span>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Uptime:</span>
+                                    <span id="uptime" class="metric-value">5 dias, 3h 22m</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-hdd text-green"></i>
+                                <h3>Armazenamento</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="progress-bar">
+                                    <div class="progress" style="width: 65%"></div>
+                                </div>
+                                <div class="metric">
+                                    <span class="metric-label">Usado:</span>
+                                    <span id="diskUsage" class="metric-value">65GB / 100GB</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-globe text-purple"></i>
+                                <h3>Sites Ativos</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="big-number" id="activeSites">3</div>
+                                <p>domínios configurados</p>
+                            </div>
+                        </div>
+
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-shield-alt text-orange"></i>
+                                <h3>Certificados SSL</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="big-number" id="sslCerts">2</div>
+                                <p>certificados válidos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="services-status">
+                        <h2>Status dos Serviços</h2>
+                        <div class="services-grid">
+                            <div class="service-card">
+                                <i class="fas fa-server"></i>
+                                <span>Nginx</span>
+                                <span class="status running">Running</span>
+                            </div>
+                            <div class="service-card">
+                                <i class="fab fa-node-js"></i>
+                                <span>Node.js</span>
+                                <span class="status running">Running</span>
+                            </div>
+                            <div class="service-card">
+                                <i class="fab fa-php"></i>
+                                <span>PHP-FPM</span>
+                                <span class="status running">Running</span>
+                            </div>
+                            <div class="service-card">
+                                <i class="fas fa-database"></i>
+                                <span>MySQL</span>
+                                <span class="status running">Running</span>
+                            </div>
+                            <div class="service-card">
+                                <i class="fas fa-elephant"></i>
+                                <span>PostgreSQL</span>
+                                <span class="status running">Running</span>
+                            </div>
+                            <div class="service-card">
+                                <i class="fas fa-memory"></i>
+                                <span>Redis</span>
+                                <span class="status running">Running</span>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Sites Section -->
+                <section id="sites-section" class="section">
+                    <div class="section-header">
+                        <h2>Gerenciamento de Sites</h2>
+                        <button class="btn btn-primary" id="addSiteBtn">
+                            <i class="fas fa-plus"></i>
+                            Novo Site
+                        </button>
+                    </div>
+                    
+                    <div class="sites-list">
+                        <div class="table-container">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>Domínio</th>
+                                        <th>Status</th>
+                                        <th>SSL</th>
+                                        <th>Diretório</th>
+                                        <th>Ações</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="sitesTableBody">
+                                    <!-- Sites serão carregados via JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SSL Section -->
+                <section id="ssl-section" class="section">
+                    <div class="section-header">
+                        <h2>Certificados SSL</h2>
+                        <button class="btn btn-success" id="obtainSslBtn">
+                            <i class="fas fa-certificate"></i>
+                            Obter SSL
+                        </button>
+                    </div>
+                    
+                    <div class="ssl-certificates">
+                        <div id="sslList" class="ssl-list">
+                            <!-- Certificados serão carregados via JavaScript -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Files Section -->
+                <section id="files-section" class="section">
+                    <div class="section-header">
+                        <h2>Gerenciador de Arquivos</h2>
+                        <div class="file-breadcrumb">
+                            <span id="currentPath">/var/www</span>
+                        </div>
+                    </div>
+                    
+                    <div class="file-manager">
+                        <div class="file-toolbar">
+                            <button class="btn btn-secondary" id="uploadBtn">
+                                <i class="fas fa-upload"></i>
+                                Upload
+                            </button>
+                            <button class="btn btn-secondary" id="newFolderBtn">
+                                <i class="fas fa-folder-plus"></i>
+                                Nova Pasta
+                            </button>
+                            <button class="btn btn-secondary" id="refreshFilesBtn">
+                                <i class="fas fa-sync-alt"></i>
+                                Atualizar
+                            </button>
+                        </div>
+                        
+                        <div class="files-grid" id="filesGrid">
+                            <!-- Arquivos serão carregados via JavaScript -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Database Section -->
+                <section id="databases-section" class="section">
+                    <div class="section-header">
+                        <h2>Bancos de Dados</h2>
+                    </div>
+                    
+                    <div class="db-management">
+                        <div class="db-servers">
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fas fa-database text-blue"></i>
+                                    <h3>MySQL</h3>
+                                </div>
+                                <div class="card-content">
+                                    <p>Status: <span class="status running">Ativo</span></p>
+                                    <p>Porta: 3306</p>
+                                    <button class="btn btn-primary">Acessar phpMyAdmin</button>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fas fa-elephant text-purple"></i>
+                                    <h3>PostgreSQL</h3>
+                                </div>
+                                <div class="card-content">
+                                    <p>Status: <span class="status running">Ativo</span></p>
+                                    <p>Porta: 5432</p>
+                                    <button class="btn btn-primary">Acessar pgAdmin</button>
+                                </div>
+                            </div>
+                            
+                            <div class="card">
+                                <div class="card-header">
+                                    <i class="fas fa-file-alt text-green"></i>
+                                    <h3>SQLite</h3>
+                                </div>
+                                <div class="card-content">
+                                    <p>Arquivos de banco leves</p>
+                                    <p>Sem porta (arquivo)</p>
+                                    <button class="btn btn-primary">Gerenciar Arquivos</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Logs Section -->
+                <section id="logs-section" class="section">
+                    <div class="section-header">
+                        <h2>Logs do Sistema</h2>
+                        <div class="log-controls">
+                            <select id="logType">
+                                <option value="nginx-access">Nginx Access</option>
+                                <option value="nginx-error">Nginx Error</option>
+                                <option value="mysql">MySQL</option>
+                                <option value="system">Sistema</option>
+                            </select>
+                            <button class="btn btn-secondary" id="clearLogsBtn">
+                                <i class="fas fa-trash"></i>
+                                Limpar
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="logs-container">
+                        <div class="log-viewer" id="logViewer">
+                            <div class="log-line">[2024-01-01 12:00:00] Sistema iniciado com sucesso</div>
+                            <div class="log-line">[2024-01-01 12:01:00] Nginx carregado</div>
+                            <div class="log-line">[2024-01-01 12:01:15] MySQL conectado</div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings-section" class="section">
+                    <div class="section-header">
+                        <h2>Configurações</h2>
+                    </div>
+                    
+                    <div class="settings-panels">
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-shield-alt"></i>
+                                <h3>Segurança</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="form-group">
+                                    <label>Porta SSH:</label>
+                                    <input type="number" value="22" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label>
+                                        <input type="checkbox" checked> Fail2Ban ativo
+                                    </label>
+                                </div>
+                                <button class="btn btn-primary">Salvar</button>
+                            </div>
+                        </div>
+                        
+                        <div class="card">
+                            <div class="card-header">
+                                <i class="fas fa-backup"></i>
+                                <h3>Backup</h3>
+                            </div>
+                            <div class="card-content">
+                                <div class="form-group">
+                                    <label>Backup automático:</label>
+                                    <select class="form-control">
+                                        <option>Diário</option>
+                                        <option>Semanal</option>
+                                        <option>Mensal</option>
+                                    </select>
+                                </div>
+                                <button class="btn btn-success">Backup Agora</button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modals -->
+    <!-- Add Site Modal -->
+    <div id="addSiteModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Adicionar Novo Site</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="addSiteForm" class="modal-body">
+                <div class="form-group">
+                    <label>Domínio:</label>
+                    <input type="text" id="siteDomain" placeholder="exemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Diretório:</label>
+                    <input type="text" id="siteRoot" placeholder="/var/www/exemplo">
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="enablePhp"> Habilitar PHP
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" id="enableSsl"> Configurar SSL
+                    </label>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-cancel">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Criar Site</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- SSL Modal -->
+    <div id="sslModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Obter Certificado SSL</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <form id="sslForm" class="modal-body">
+                <div class="form-group">
+                    <label>Domínio:</label>
+                    <input type="text" id="sslDomain" placeholder="exemplo.com" required>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <input type="email" id="sslEmail" placeholder="admin@exemplo.com" required>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary modal-cancel">Cancelar</button>
+                    <button type="submit" class="btn btn-success">Obter SSL</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+</body>
+</html>
