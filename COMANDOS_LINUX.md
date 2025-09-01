@@ -1,30 +1,23 @@
-# 🐧 Comandos para Executar no Servidor Linux
+# 🐧 Comandos para Executar no Servidor Ubuntu
 
-> **Importante:** Este projeto foi desenvolvido no Windows, mas é destinado para execução em servidores Linux. Os comandos abaixo devem ser executados no seu servidor Linux.
+> **Importante:** Este projeto foi desenvolvido no Windows, mas é destinado para execução em servidores Ubuntu. Os comandos abaixo devem ser executados no seu servidor Ubuntu.
 
-## 🚀 Instalação Completa
+## 🚀 Instalação Completa no Ubuntu
 
-### 1. Preparar o Sistema
+### 1. Preparar o Sistema Ubuntu
 ```bash
-# Atualizar sistema
-sudo apt update && sudo apt upgrade -y  # Ubuntu/Debian
-sudo yum update -y                      # CentOS/RHEL
+# Atualizar sistema Ubuntu
+sudo apt update && sudo apt upgrade -y
 
-# Instalar Git (se não tiver)
-sudo apt install git -y                # Ubuntu/Debian
-sudo yum install git -y                # CentOS/RHEL
+# Instalar dependências básicas
+sudo apt install git curl wget unzip -y
 ```
 
 ### 2. Baixar o Projeto
 ```bash
-# Opção 1: Clone via Git
-git clone https://github.com/seu-usuario/servidor-linux.git
+# Clone via Git
+git clone https://github.com/Estevanavelar/servidor-linux.git
 cd servidor-linux
-
-# Opção 2: Download direto (se disponível)
-wget https://github.com/seu-usuario/servidor-linux/archive/main.zip
-unzip main.zip
-cd servidor-linux-main
 ```
 
 ### 3. Dar Permissões aos Scripts
@@ -38,11 +31,16 @@ ls -la scripts/
 
 ### 4. Executar Instalação Completa
 ```bash
-# EXECUTAR COMO ROOT/SUDO
+# EXECUTAR COMO ROOT/SUDO (Ubuntu)
 sudo ./scripts/install-server.sh
 ```
 
-**⏱️ Aguarde 15-30 minutos para instalação completa**
+**⏱️ Aguarde 15-30 minutos para instalação completa no Ubuntu**
+
+> **💡 Dica Ubuntu:** Durante a instalação, você pode acompanhar o progresso em outro terminal:
+> ```bash
+> sudo tail -f /var/log/syslog
+> ```
 
 ### 5. Iniciar Painel de Controle
 ```bash
@@ -123,18 +121,21 @@ pm2 restart server-panel
 pm2 logs server-panel
 ```
 
-## 🔍 Comandos de Verificação
+## 🔍 Comandos de Verificação no Ubuntu
 
 ### Status dos Serviços
 ```bash
-# Verificar todos os serviços
+# Verificar todos os serviços principais
 sudo systemctl status nginx mysql postgresql redis php8.1-fpm
 
 # Verificar portas abertas
 sudo ss -tuln | grep -E ':(22|80|443|3306|5432|6379|8080)'
 
-# Verificar processos
+# Verificar processos em tempo real
 htop
+
+# Verificar status resumido de todos os serviços
+sudo systemctl is-active nginx mysql postgresql redis php8.1-fpm
 ```
 
 ### Verificar Versões Instaladas
@@ -186,16 +187,25 @@ sudo nano /etc/ssh/sshd_config
 sudo systemctl restart ssh
 ```
 
-### Firewall
+### Firewall Ubuntu (UFW)
 ```bash
-# Ubuntu/Debian (UFW)
+# Verificar status do firewall
 sudo ufw status
-sudo ufw allow 8080  # Permitir porta do painel
 
-# CentOS/RHEL (Firewalld)
-sudo firewall-cmd --list-all
-sudo firewall-cmd --permanent --add-port=8080/tcp
-sudo firewall-cmd --reload
+# Ativar firewall (se não estiver ativo)
+sudo ufw enable
+
+# Permitir portas essenciais
+sudo ufw allow ssh        # SSH (porta 22)
+sudo ufw allow 80         # HTTP
+sudo ufw allow 443        # HTTPS
+sudo ufw allow 8080       # Painel de controle
+
+# Verificar regras ativas
+sudo ufw status numbered
+
+# Exemplo: remover regra específica
+# sudo ufw delete [número]
 ```
 
 ### Fail2Ban
@@ -270,15 +280,14 @@ sudo nano /var/www/meusite.com/index.html
 
 ### Atualizações
 ```bash
-# Atualizar sistema
-sudo apt update && sudo apt upgrade -y  # Ubuntu/Debian
-sudo yum update -y                      # CentOS/RHEL
+# Atualizar sistema Ubuntu
+sudo apt update && sudo apt upgrade -y
 
 # Atualizar Node.js packages globais
 sudo npm update -g
 
-# Limpar sistema
-sudo apt autoremove && sudo apt autoclean  # Ubuntu/Debian
+# Limpar sistema Ubuntu
+sudo apt autoremove && sudo apt autoclean
 ```
 
 ### Monitoramento
@@ -371,28 +380,37 @@ sudo journalctl -u ssh
 
 ---
 
-## ✅ Checklist Pós-Instalação
+## ✅ Checklist Pós-Instalação Ubuntu
 
 Execute os comandos abaixo para verificar se tudo está funcionando:
 
 ```bash
-# 1. Verificar serviços
+# 1. Verificar serviços principais
 sudo systemctl is-active nginx mysql postgresql redis php8.1-fpm
 
 # 2. Testar Nginx
 curl http://localhost
 
-# 3. Testar painel
+# 3. Testar painel de controle
 curl http://localhost:8080
 
-# 4. Verificar logs
+# 4. Verificar logs do Nginx
 sudo tail -n 20 /var/log/nginx/access.log
 
 # 5. Testar conectividade
 ping -c 3 google.com
+
+# 6. Verificar versões instaladas
+nginx -v && node --version && php --version
+
+# 7. Verificar espaço em disco
+df -h
+
+# 8. Verificar memória disponível
+free -h
 ```
 
-**Se todos os comandos executarem sem erro, sua instalação foi bem-sucedida! 🎉**
+**Se todos os comandos executarem sem erro, sua instalação Ubuntu foi bem-sucedida! 🎉**
 
 ---
 
@@ -420,4 +438,59 @@ sudo cp /.lixeira/nginx-sites/* /etc/nginx/sites-available/
 sudo systemctl reload nginx
 ```
 
-**Mantenha sempre este arquivo acessível para consulta rápida! 📖**
+---
+
+## 🐧 Comandos Específicos do Ubuntu
+
+### Gerenciamento de Pacotes
+```bash
+# Buscar pacote
+apt search nome-do-pacote
+
+# Informações sobre pacote
+apt show nome-do-pacote
+
+# Listar pacotes instalados
+apt list --installed
+
+# Limpar cache de pacotes
+sudo apt autoclean && sudo apt autoremove
+```
+
+### Informações do Sistema Ubuntu
+```bash
+# Versão do Ubuntu
+lsb_release -a
+
+# Informações detalhadas
+sudo lshw -short
+
+# Verificar se é Ubuntu Server ou Desktop
+dpkg -l ubuntu-desktop ubuntu-server-*
+```
+
+### Logs Específicos do Ubuntu
+```bash
+# Logs do sistema Ubuntu
+sudo journalctl -f
+
+# Logs de inicialização
+sudo journalctl -b
+
+# Logs de um serviço específico
+sudo journalctl -u nginx -f
+```
+
+### Performance no Ubuntu
+```bash
+# Processos que mais consomem CPU
+top -o %CPU
+
+# Processos que mais consomem memória  
+top -o %MEM
+
+# Informações de rede
+sudo netstat -tuln
+```
+
+**Mantenha sempre este arquivo acessível para consulta rápida no seu servidor Ubuntu! 📖**

@@ -25,11 +25,11 @@
 
 ```bash
 # Opção 1: Via Git
-git clone https://github.com/seu-usuario/servidor-linux.git
+git clone https://github.com/Estevanavelar/servidor-linux.git
 cd servidor-linux
 
 # Opção 2: Download direto
-wget https://github.com/seu-usuario/servidor-linux/archive/main.zip
+wget https://github.com/Estevanavelar/servidor-linux/archive/main.zip
 unzip main.zip
 cd servidor-linux-main
 ```

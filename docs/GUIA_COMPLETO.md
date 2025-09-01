@@ -16,7 +16,7 @@ Este sistema oferece uma solução completa para configuração e gerenciamento 
 
 ```bash
 # Baixar o projeto
-git clone https://github.com/seu-usuario/servidor-linux.git
+git clone https://github.com/Estevanavelar/servidor-linux.git
 cd servidor-linux
 
 # Dar permissão de execução

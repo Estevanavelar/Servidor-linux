@@ -24,7 +24,7 @@ Este projeto oferece uma **solução completa e automatizada** para configurar e
 
 ```bash
 # 1. Baixar o projeto
-git clone https://github.com/seu-usuario/servidor-linux.git
+git clone https://github.com/Estevanavelar/servidor-linux.git
 cd servidor-linux
 
 # 2. Executar instalação completa (como root)
@@ -216,8 +216,8 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 ## 📞 Suporte
 
 - 📖 **Documentação:** [docs/](docs/)
-- 🐛 **Bugs:** [Issues](https://github.com/seu-usuario/servidor-linux/issues)
-- 💬 **Discussões:** [Discussions](https://github.com/seu-usuario/servidor-linux/discussions)
+- 🐛 **Bugs:** [Issues](https://github.com/Estevanavelar/servidor-linux/issues)
+- 💬 **Discussões:** [Discussions](https://github.com/Estevanavelar/servidor-linux/discussions)
 - 📧 **Email:** suporte@seudominio.com
 
 ---
