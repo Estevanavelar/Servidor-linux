@@ -180,11 +180,78 @@ pm2 logs server-panel
 
 ### SSH
 ```bash
+# Conectar via SSH (IPv4)
+ssh usuario@192.168.1.100
+
+# Conectar via SSH (IPv6) - Colchetes são obrigatórios
+ssh usuario@[2804:3dc8:211:2dea:c559:d519:faa9:1ed0]
+
+# Conectar com porta específica
+ssh -p 2222 usuario@servidor.com
+
+# Conectar com chave SSH
+ssh -i ~/.ssh/chave_privada usuario@servidor.com
+
+# Conectar com timeout personalizado
+ssh -o ConnectTimeout=10 usuario@servidor.com
+
+# Conectar em modo verbose para debug
+ssh -v usuario@servidor.com
+
 # Editar configuração SSH
 sudo nano /etc/ssh/sshd_config
 
 # Reiniciar SSH
 sudo systemctl restart ssh
+
+# Verificar conexões SSH ativas
+who
+w
+
+# Verificar tentativas de login SSH
+sudo tail -f /var/log/auth.log
+```
+
+### Diagnóstico de Problemas SSH IPv6
+```bash
+# Windows - Verificar conectividade IPv6
+ping -6 ipv6.google.com
+
+# Windows - Verificar configuração IPv6 local
+ipconfig /all | findstr IPv6
+
+# Windows - Testar conectividade básica
+ping -6 [endereço-ipv6]
+
+# Windows - Verificar se IPv6 está habilitado
+netsh interface ipv6 show config
+
+# Linux - Verificar conectividade IPv6
+ping6 ipv6.google.com
+
+# Linux - Verificar endereços IPv6
+ip -6 addr show
+
+# Fazer reverse DNS do IPv6
+nslookup [endereço-ipv6]
+
+# Testar conexão TCP específica
+telnet [endereço-ipv6] 22
+```
+
+### Problemas Comuns IPv6
+```bash
+# Problema: "falha na transmissão" ou "Unknown error"
+# Causa: IPv6 não configurado globalmente
+# Solução: Verificar com ISP ou usar túnel IPv6
+
+# Problema: "Connection refused"
+# Causa: SSH não está rodando ou porta bloqueada
+# Solução: Verificar serviço SSH no servidor
+
+# Problema: "Network unreachable"
+# Causa: Roteamento IPv6 incorreto
+# Solução: Verificar gateway IPv6
 ```
 
 ### Firewall Ubuntu (UFW)
