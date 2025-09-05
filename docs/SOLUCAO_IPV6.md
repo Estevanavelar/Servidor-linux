@@ -162,4 +162,78 @@ tracert [endereço]
 
 ---
 
-**💡 Dica:** A maioria dos problemas de SSH IPv6 são resolvidos usando IPv4 ou configurando túneis IPv6 adequados. Para problemas de rede local, verifique sempre se os dispositivos estão na mesma subnet.
+## 🚨 Diagnóstico Completo: Servidor Completamente Inacessível
+
+### ✅ Cenário Testado
+- **Domínio:** ssh.avelarcompany.dev.br
+- **IPv4:** 160.238.151.146
+- **DNS:** Resolve corretamente ✅
+- **Conectividade:** FALHA TOTAL ❌
+
+### 🔍 Testes Realizados
+```bash
+# Portas testadas (todas falharam)
+Test-NetConnection 160.238.151.146 -Port 22    # SSH padrão
+Test-NetConnection 160.238.151.146 -Port 2222  # SSH alternativo
+Test-NetConnection 160.238.151.146 -Port 80    # HTTP
+Test-NetConnection 160.238.151.146 -Port 443   # HTTPS
+Test-NetConnection 160.238.151.146 -Port 8022  # SSH alternativo
+
+# Usuários testados (todos falharam)
+ssh avelar-serve@ssh.avelarcompany.dev.br
+ssh root@ssh.avelarcompany.dev.br
+ssh -p 2222 root@ssh.avelarcompany.dev.br
+
+# Resultado: Connection timed out em todos os casos
+```
+
+### 🎯 Possíveis Causas
+1. **Servidor offline/inativo**
+2. **Firewall do servidor** bloqueando todo tráfego externo
+3. **Firewall do ISP/provedor** bloqueando conexões
+4. **Problema de roteamento** (tracert para no salto 8)
+5. **DDoS protection** bloqueando conexões
+
+### ✅ Soluções Recomendadas
+
+#### 1. **Verificar Status do Servidor (Urgente)**
+```bash
+# Contatar administrador para verificar:
+# - Servidor está ligado/funcionando?
+# - Serviços SSH estão rodando?
+# - Firewall permite conexões externas?
+# - Houve mudança recente de configuração?
+```
+
+#### 2. **Testar de Outra Rede**
+```bash
+# Teste de hotspot móvel ou outra conexão
+# Para descartar problema do ISP atual
+```
+
+#### 3. **Verificar Logs do Servidor**
+```bash
+# No servidor (se houver acesso físico/console):
+sudo tail -f /var/log/auth.log      # Tentativas SSH
+sudo tail -f /var/log/syslog        # Logs gerais
+sudo systemctl status ssh          # Status do SSH
+sudo ufw status                     # Status do firewall
+```
+
+#### 4. **Verificar Conectividade do Servidor**
+```bash
+# No servidor:
+curl ifconfig.me                    # Verificar IP público
+netstat -tuln | grep :22           # SSH rodando?
+ss -tuln | grep :22                # Alternativa moderna
+```
+
+### 🆘 Ações Imediatas
+1. **Contatar administrador** do ssh.avelarcompany.dev.br
+2. **Verificar se servidor está online**
+3. **Pedir teste de conectividade** de outras localidades
+4. **Solicitar acesso via console/KVM** se disponível
+
+---
+
+**💡 Dica:** A maioria dos problemas de SSH IPv6 são resolvidos usando IPv4 ou configurando túneis IPv6 adequados. Para problemas de rede local, verifique sempre se os dispositivos estão na mesma subnet. Quando há falha total de conectividade, o problema geralmente está no servidor ou infraestrutura de rede.
