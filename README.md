@@ -151,7 +151,9 @@ sudo ./scripts/backup.sh full
 ### 📚 Guias Disponíveis
 - **[Guia Completo](docs/GUIA_COMPLETO.md)** - Manual detalhado do sistema
 - **[Guia de Instalação](docs/INSTALACAO.md)** - Passo a passo da instalação
+- **[Solução SSH](docs/SOLUCAO_SSH.md)** - Guia completo para resolver problemas SSH com Cloudflare
 - **[FAQ](docs/FAQ.md)** - Perguntas frequentes e soluções
+- **[Comandos Linux](COMANDOS_LINUX.md)** - Referência completa de comandos
 
 ### 🎥 Recursos Adicionais
 - Exemplos de configuração
@@ -212,6 +214,37 @@ Este projeto está licenciado sob a Licença MIT - veja o arquivo [LICENSE](LICE
 - Comunidade open source
 - Contribuidores do projeto
 - Testadores e usuários
+
+## 🚨 Solução de Problemas
+
+### 🔌 Conectividade SSH
+Problemas para conectar via SSH? **[Consulte nosso guia completo](docs/SOLUCAO_SSH.md)** que resolve:
+
+- 🌐 **Conexão via domínio** → ssh usuario@meudominio.com
+- ☁️ **Configuração Cloudflare** → Registro A com proxy desabilitado
+- ❌ **"Connection timed out"** → Verificar DNS/firewall  
+- ❌ **Servidor inacessível** → Diagnóstico completo
+- 📧 **Modelos de mensagem** → Para contatar administradores
+
+**Diagnóstico rápido:**
+```bash
+# Verificar DNS e conectividade
+nslookup meudominio.com
+ping meudominio.com
+Test-NetConnection meudominio.com -Port 22
+```
+
+### 🌐 Painel Web
+```bash
+# Verificar se painel está rodando
+sudo lsof -i :8080
+
+# Verificar logs do painel
+pm2 logs server-panel
+
+# Reiniciar painel
+pm2 restart server-panel
+```
 
 ## 📞 Suporte
 
