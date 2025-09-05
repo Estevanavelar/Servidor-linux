@@ -20,23 +20,32 @@ Este projeto oferece uma **solução completa e automatizada** para configurar e
 - 🔒 **Segurança** configurada automaticamente
 - 💾 **Backup automático** de sites e configurações
 
-## ⚡ Instalação Rápida (2 minutos)
+## ⚡ Instalação Ultra-Rápida (1 comando)
 
+### 🚀 Para Instalação na Pasta Root (Recomendado)
 ```bash
-# 1. Baixar o projeto
+# Execute como root - substitua pelo seu domínio e email
+sudo su -
+bash <(curl -s https://raw.githubusercontent.com/seu-usuario/servidor-linux/main/install-root.sh) panel.seudominio.com admin@seudominio.com
+```
+
+### 📋 Instalação Manual (Método Alternativo)
+```bash
+# 1. Baixar o projeto na pasta root
+sudo su -
+cd /root
 git clone https://github.com/Estevanavelar/servidor-linux.git
 cd servidor-linux
 
-# 2. Executar instalação completa (como root)
-sudo chmod +x scripts/*.sh
-sudo ./scripts/install-server.sh
-
-# 3. Iniciar painel de controle
-./scripts/start-panel.sh
+# 2. Configurar com domínio
+chmod +x scripts/*.sh
+./scripts/setup-panel-domain.sh panel.seudominio.com admin@seudominio.com
 ```
 
-🌐 **Acessar painel:** `http://SEU-IP:8080`  
-👤 **Login:** `admin` / `admin123`
+🌐 **Acessar painel:** `https://panel.seudominio.com`  
+👤 **Login:** `admin` / `1583`  
+🔐 **SSL:** Automático via Let's Encrypt  
+🔄 **Auto-start:** Configurado no boot do sistema
 
 ## 📋 O Que é Instalado Automaticamente
 
@@ -149,9 +158,11 @@ sudo ./scripts/backup.sh full
 ## 📖 Documentação
 
 ### 📚 Guias Disponíveis
+- **[Instalação Root](docs/INSTALACAO_ROOT.md)** - 🔥 Instalação na pasta root (NOVO)
+- **[Painel Profissional](docs/PAINEL_PROFISSIONAL.md)** - Guia completo do painel moderno
+- **[Solução SSH](docs/SOLUCAO_SSH.md)** - Resolver problemas SSH com Cloudflare
 - **[Guia Completo](docs/GUIA_COMPLETO.md)** - Manual detalhado do sistema
-- **[Guia de Instalação](docs/INSTALACAO.md)** - Passo a passo da instalação
-- **[Solução SSH](docs/SOLUCAO_SSH.md)** - Guia completo para resolver problemas SSH com Cloudflare
+- **[Guia de Instalação](docs/INSTALACAO.md)** - Instalação tradicional
 - **[FAQ](docs/FAQ.md)** - Perguntas frequentes e soluções
 - **[Comandos Linux](COMANDOS_LINUX.md)** - Referência completa de comandos
 
